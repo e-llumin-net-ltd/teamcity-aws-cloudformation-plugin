@@ -206,12 +206,13 @@ public class AWSClient {
 					stackId = getStackId(stacks,stackName);
 					if(stackId!=null) {
 						myListener.debugLog("Stackid :" + stackId);
-						wait.setStackName(stackId);
+						stackName = stackId;
+						wait.setStackName(stackName);
 					}
 				}
 
 				myListener.debugLog("From the wait for delete");
-				events = describeStackEvents(stackbuilder, stackId, action);
+				events = describeStackEvents(stackbuilder, stackName, action);
 				for (String event : events) {
 					myListener.waitForStack(event.toString());
 				}
