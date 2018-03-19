@@ -228,9 +228,7 @@ public class AWSClient {
 
 	private String getStackId(List<Stack> stacks, String stackName) {
 		for (Stack stack :	stacks) {
-			if(stack.getStackName()== stackName){
-				return stack.getStackId();
-			}
+			return stack.getStackId();
 		}
 		return null;
 	}
