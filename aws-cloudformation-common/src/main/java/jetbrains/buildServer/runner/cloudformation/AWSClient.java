@@ -188,6 +188,7 @@ public class AWSClient {
 		wait.setStackName(stackName);
 		String stackStatus;
 		String stackReason;
+		String stackId = null;
 		String action = "DELETE";
 		Boolean delete = false;
 		List<String> events;
@@ -200,8 +201,17 @@ public class AWSClient {
 				stackStatus = "NO_SUCH_STACK";
 				stackReason = "Stack has been deleted";
 			} else {
+				if(stackId==null){
+					myListener.debugLog("From the wait for delete - getting stackid");
+					stackId = getStackId(stacks,stackName);
+					if(stackId!=null) {
+						myListener.debugLog("Stackid :" + stackId);
+						wait.setStackName(stackId);
+					}
+				}
+
 				myListener.debugLog("From the wait for delete");
-				events = describeStackEvents(stackbuilder, stackName, action);
+				events = describeStackEvents(stackbuilder, stackId, action);
 				for (String event : events) {
 					myListener.waitForStack(event.toString());
 				}
@@ -215,10 +225,19 @@ public class AWSClient {
 		myListener.createStackFinished(stackName, stackStatus);
 	}
 
-	public List<String> describeStackEvents(AmazonCloudFormationClient stackbuilder, String stackName, String ACTION) {
+	private String getStackId(List<Stack> stacks, String stackName) {
+		for (Stack stack :	stacks) {
+			if(stack.getStackName()== stackName){
+				return stack.getStackId();
+			}
+		}
+		return null;
+	}
+
+	public List<String> describeStackEvents(AmazonCloudFormationClient stackbuilder, String stackId, String ACTION) {
 		List<String> output = new ArrayList<String>();
 		DescribeStackEventsRequest request = new DescribeStackEventsRequest();
-		request.setStackName(stackName);
+		request.setStackName(stackId);
 		DescribeStackEventsResult results = stackbuilder.describeStackEvents(request);
 		for (StackEvent event : results.getStackEvents()) {
 			if (event.getEventId().contains(ACTION)) {
@@ -426,7 +445,7 @@ public class AWSClient {
 		}
 
 		void deploymentFailed(@NotNull String environmentId, @NotNull String applicationName,
-				@NotNull String versionLabel, @NotNull Boolean hasTimeout, @Nullable ErrorInfo errorInfo) {
+							  @NotNull String versionLabel, @NotNull Boolean hasTimeout, @Nullable ErrorInfo errorInfo) {
 		}
 
 		public static class ErrorInfo {
