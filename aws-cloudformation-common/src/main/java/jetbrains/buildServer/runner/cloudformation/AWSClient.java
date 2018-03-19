@@ -201,6 +201,8 @@ public class AWSClient {
 				stackStatus = "NO_SUCH_STACK";
 				stackReason = "Stack has been deleted";
 			} else {
+				myListener.debugLog("Found stacks count :" + stacks.size());
+				myListener.debugLog("Found stacks[0] :" + stacks.get(0).getStackName());
 				if(stackId==null){
 					myListener.debugLog("From the wait for delete - getting stackid");
 					stackId = getStackId(stacks,stackName);
@@ -210,14 +212,17 @@ public class AWSClient {
 						wait.setStackName(stackName);
 					}
 				}
-
-				myListener.debugLog("From the wait for delete");
-				events = describeStackEvents(stackbuilder, stackName, action);
-				for (String event : events) {
-					myListener.waitForStack(event.toString());
+				if(getStackStatus(stacks,stackName).equals(StackStatus.DELETE_COMPLETE.toString())){
+					delete = true;
+				}else{
+					myListener.debugLog("From the wait for delete");
+					events = describeStackEvents(stackbuilder, stackName, action);
+					for (String event : events) {
+						myListener.waitForStack(event.toString());
+					}
+					Thread.sleep(10000);
+					events.clear();
 				}
-				Thread.sleep(10000);
-				events.clear();
 			}
 		}
 		stackStatus = "done";
@@ -229,6 +234,12 @@ public class AWSClient {
 	private String getStackId(List<Stack> stacks, String stackName) {
 		for (Stack stack :	stacks) {
 			return stack.getStackId();
+		}
+		return null;
+	}
+	private String getStackStatus(List<Stack> stacks, String stackId) {
+		for (Stack stack :	stacks) {
+			return stack.getStackStatus();
 		}
 		return null;
 	}
