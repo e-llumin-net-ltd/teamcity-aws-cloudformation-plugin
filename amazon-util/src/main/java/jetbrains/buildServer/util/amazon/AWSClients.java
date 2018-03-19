@@ -105,7 +105,11 @@ public class AWSClients {
   @NotNull
   private static ClientConfiguration createClientConfiguration() {
 	String proxyHost = System.getenv("PROXY_HOST");
-	int proxyPort = Integer.parseInt(System.getenv("PROXY_PORT"));
+    String proxy_port = System.getenv("PROXY_PORT");
+    int proxyPort =0;
+    if ( proxy_port != null ) {
+      proxyPort = Integer.parseInt(proxy_port);
+    }
 	ClientConfiguration config = new ClientConfiguration();
 	if ( proxyHost != null ) {
 	  config.setProxyHost(proxyHost);
