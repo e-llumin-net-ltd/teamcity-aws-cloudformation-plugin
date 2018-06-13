@@ -59,4 +59,7 @@ public interface CloudFormationConstants {
   String WAIT_TIMEOUT_SEC_PARAM = "cloudformation_wait_timeout_sec";
   String WAIT_TIMEOUT_SEC_LABEL = "Timeout (seconds)";
   String WAIT_POLL_INTERVAL_SEC_CONFIG_PARAM = "cloudformation.wait.poll.interval.sec";
-  int WAIT_POLL_INTERVAL_SEC_DEF
+  int WAIT_POLL_INTERVAL_SEC_DEFAULT = 20;
+
+  String STATUS_IS_UNKNOWN = "status is unknown";
+}
