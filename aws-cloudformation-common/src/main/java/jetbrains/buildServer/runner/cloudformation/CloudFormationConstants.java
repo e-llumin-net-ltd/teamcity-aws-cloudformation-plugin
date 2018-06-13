@@ -41,6 +41,9 @@ public interface CloudFormationConstants {
   String STACK_NAME_PARAM = "cloudformation_stack_name";
   String STACK_NAME_LABEL = "Stack Name";
 
+  String STACK_CAPABILITIES_PARAM = "cloudformation_capabilities";
+  String STACK_CAPABILITIES_LABEL = "Stack Capabilties";
+
   String APP_NAME_PARAM = "cloudformation_appname_label";
   String APP_NAME_LABEL = "Application Name";
   
@@ -51,11 +54,9 @@ public interface CloudFormationConstants {
   String APP_VERSION_LABEL = "Application Version";
 
   String ONFAILURE_PARAM = "cloudformation_wait";
+
   String ONFAILURE_LABEL = "Action on Failure";
   String WAIT_TIMEOUT_SEC_PARAM = "cloudformation_wait_timeout_sec";
   String WAIT_TIMEOUT_SEC_LABEL = "Timeout (seconds)";
   String WAIT_POLL_INTERVAL_SEC_CONFIG_PARAM = "cloudformation.wait.poll.interval.sec";
-  int WAIT_POLL_INTERVAL_SEC_DEFAULT = 20;
-
-  String STATUS_IS_UNKNOWN = "status is unknown";
-}
+  int WAIT_POLL_INTERVAL_SEC_DEF

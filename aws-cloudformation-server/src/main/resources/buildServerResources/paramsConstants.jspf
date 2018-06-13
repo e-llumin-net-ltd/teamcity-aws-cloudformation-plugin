@@ -33,6 +33,9 @@
 <c:set var="stack_name_param" value="<%=CloudFormationConstants.STACK_NAME_PARAM%>"/>
 <c:set var="stack_name_label" value="<%=CloudFormationConstants.STACK_NAME_LABEL%>"/>
 
+<c:set var="stack_capabilities_param" value="<%=CloudFormationConstants.STACK_CAPABILITIES_PARAM%>"/>
+<c:set var="stack_capabilities_label" value="<%=CloudFormationConstants.STACK_CAPABILITIES_LABEL%>"/>
+
 <c:set var="app_name_param" value="<%=CloudFormationConstants.APP_NAME_PARAM%>"/>
 <c:set var="app_name_label" value="<%=CloudFormationConstants.APP_NAME_LABEL%>"/>
 

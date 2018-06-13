@@ -24,7 +24,9 @@ import org.jetbrains.annotations.Nullable;
 
 import com.amazonaws.regions.Region;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static jetbrains.buildServer.runner.cloudformation.CloudFormationConstants.*;
@@ -56,9 +58,11 @@ public class CloudFormationRunner implements AgentBuildRunner {
         final String cfnAction = runnerParameters.get(CLOUDFORMATION_STACK_ACTION_PARAM);
         final String stackName = runnerParameters.get(STACK_NAME_PARAM);
         final String onFailure = runnerParameters.get(ONFAILURE_PARAM);
+        final String capabilitiesCsv = runnerParameters.get(STACK_CAPABILITIES_PARAM);
+        final List<String> capabilities = Arrays.asList(capabilitiesCsv.split("\\s*,\\s*"));
 
         if (!m.problemOccurred && !isInterrupted()) {
-          awsClient.initiateCFN(stackName, region, s3BucketName, s3ObjectKey, cfnAction, onFailure);
+          awsClient.initiateCFN(stackName, region, s3BucketName, s3ObjectKey, cfnAction, onFailure,capabilities);
         }
         
         return m.problemOccurred ? BuildFinishedStatus.FINISHED_WITH_PROBLEMS : BuildFinishedStatus.FINISHED_SUCCESS;
@@ -112,11 +116,4 @@ public class CloudFormationRunner implements AgentBuildRunner {
   private class Mutable {
     public Mutable(@NotNull Map<String, String> configParameters) {
       problemOccurred = false;
-      s3ObjectVersion = nullIfEmpty(configParameters.get(S3_OBJECT_VERSION_CONFIG_PARAM));
-    }
-
-    boolean problemOccurred;
-    String s3ObjectVersion;
-    String s3ObjectETag;
-  }
-}
+      s3ObjectVersion = nullIfEmpty(configParameters.get(S3_OBJECT_VERSION_CONFIG_P

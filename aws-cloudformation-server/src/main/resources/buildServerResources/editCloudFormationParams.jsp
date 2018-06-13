@@ -48,6 +48,18 @@
 			</props:selectProperty> <span class="smallNote">Select desired action on stack creation failure</span><span class="error" id="error_${wait_onfailure}"></span>
     </td>
 </tr>
+<tr>
+    <th><label for="${stack_capabilities_param}">${stack_capabilities_label}: <l:star/></label></th>
+    <td><props:selectProperty name="${stack_capabilities_param}"
+    				className="longField" enableFilter="true">
+    				<props:option value="null">-- Select Capabilties --</props:option>
+    				<props:option value="">None</props:option>
+    				<props:option value="CAPABILITY_IAM">Iam - CAPABILITY_IAM</props:option>
+    				<props:option value="CAPABILITY_NAMED_IAM">Named Iam - CAPABILITY_NAMED_IAM</props:option>
+    			</props:selectProperty> <span class="smallNote">Select desired capabilties</span><span class="error" id="error_cfn_capabilties_param}"></span>
+    </td>
+
+</tr>
 
 <l:settingsGroup title="Version Location">
     <tr>
