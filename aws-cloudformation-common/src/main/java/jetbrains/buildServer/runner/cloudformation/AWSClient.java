@@ -34,6 +34,7 @@ import jetbrains.buildServer.util.amazon.AWSClients;
 import jetbrains.buildServer.util.amazon.AWSException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.jetbrains.annotations.Contract;
@@ -78,12 +79,13 @@ public class AWSClient {
 	 *            valid S3 object key
 	 */
 	public void initiateCFN(@NotNull String stackName, @NotNull String region, @NotNull String s3BucketName,
-			@NotNull String s3ObjectKey, @NotNull String cfnAction, @NotNull String onFailure) {
+			@NotNull String s3ObjectKey, @NotNull String cfnAction, @NotNull String onFailure,@Nullable Collection<String> capabilities) {
 		try {
 			String templateURL;
 			Region reg = Region.getRegion(Regions.fromName(region));
 			myCloudFormationClient.setRegion(reg);
 			templateURL = getTemplateUrl(reg, s3BucketName, s3ObjectKey);
+
 			System.out.println("The template url is " + templateURL);
 
 			if (cfnAction.equalsIgnoreCase("Create")) {
@@ -94,6 +96,8 @@ public class AWSClient {
 				if (!onFailure.equalsIgnoreCase("null"))
 					createRequest.setOnFailure(onFailure);
 				createRequest.setTemplateURL(templateURL);
+
+				createRequest.setCapabilities(capabilities);
 				myCloudFormationClient.createStack(createRequest);
 				waitForCompletion(myCloudFormationClient, stackName);
 
