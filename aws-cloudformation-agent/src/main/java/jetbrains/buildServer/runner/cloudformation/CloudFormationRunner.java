@@ -116,4 +116,11 @@ public class CloudFormationRunner implements AgentBuildRunner {
   private class Mutable {
     public Mutable(@NotNull Map<String, String> configParameters) {
       problemOccurred = false;
-      s3ObjectVersion = nullIfEmpty(configParameters.get(S3_OBJECT_VERSION_CONFIG_P
+      s3ObjectVersion = nullIfEmpty(configParameters.get(S3_OBJECT_VERSION_CONFIG_PARAM));
+    }
+
+    boolean problemOccurred;
+    String s3ObjectVersion;
+    String s3ObjectETag;
+  }
+}
