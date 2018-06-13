@@ -41,7 +41,7 @@ teamcity {
 
     server {
         descriptor = file("$rootDir/teamcity-plugin.xml")
-        tokens = [Plugin_Version: '0.0.6']
+        tokens = [Plugin_Version: '0.0.7']
         files {
             into('server') {
                 from awsSDKFiles()
